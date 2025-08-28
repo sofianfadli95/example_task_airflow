@@ -1,0 +1,9 @@
+{
+  "ml_pipeline_image": "ghcr.io/sofianfadli95/example_task_airflow/ml-pipeline:latest",
+  "kubernetes_namespace": "airflow",
+  "service_account": "airflow",
+  "pvc_data": "airflow-data-pvc",
+  "pvc_models": "airflow-models-pvc",
+  "pvc_predictions": "airflow-predictions-pvc",
+  "use_private_registry": "false"
+}

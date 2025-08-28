@@ -35,7 +35,7 @@ dag = DAG(
 )
 
 # Configuration variables (set these in Airflow Variables)
-ML_IMAGE = Variable.get("ml_pipeline_image", default_var="ghcr.io/yourusername/yourrepo/ml-pipeline:latest")
+ML_IMAGE = Variable.get("ml_pipeline_image", default_var="ghcr.io/sofianfadli95/example_task_airflow/ml-pipeline:latest")
 KUBERNETES_NAMESPACE = Variable.get("kubernetes_namespace", default_var="airflow")
 SERVICE_ACCOUNT = Variable.get("service_account", default_var="airflow")
 PVC_DATA = Variable.get("pvc_data", default_var="airflow-data-pvc")
@@ -106,6 +106,7 @@ def get_pod_config(task_name, command):
             limits={'memory': '2Gi', 'cpu': '1000m'}
         ),
         'image_pull_policy': 'Always',
+        'image_pull_secrets': [k8s.V1LocalObjectReference(name='ghcr-secret')] if Variable.get("use_private_registry", default_var="false").lower() == "true" else None,
         'cmds': ['python'],
         'arguments': command.split()[1:],  # Remove 'python' from command
     }
